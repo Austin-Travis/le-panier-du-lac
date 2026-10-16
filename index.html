@@ -270,6 +270,8 @@
 
   var PRICES = { picnic: 149, weekender: 229 };
   var MAX_DAYS_AHEAD = 60;
+  /* No delivery before this date (year, month, day) */
+  var FIRST_DELIVERY = new Date(2026, 9, 24); /* October 24, 2026 */
 
   var form = document.getElementById("order-form");
   var statusEl = document.getElementById("form-status");
@@ -293,6 +295,7 @@
     var toSat = (6 - dow + 7) % 7;
     if (dow === 5 || dow === 6 || dow === 0) { toSat = (dow === 0) ? 6 : toSat + 7; }
     first.setDate(first.getDate() + toSat);
+    if (first < FIRST_DELIVERY) { first = new Date(FIRST_DELIVERY); }
     var fmt = { weekday: "long", month: "long", day: "numeric" };
     for (var d = new Date(first); d <= max; d.setDate(d.getDate() + 1)) {
       var w = d.getDay();
